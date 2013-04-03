@@ -1,4 +1,14 @@
 package filebox.client;
+import java.util.Properties;
+import filebox.listener;
+import filebox.server.MessageServer;
+import org.omg.CORBA.ORB;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAHelper;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -43,11 +53,23 @@ public class Client {
   private void init() {
     try {
       ORB orb = ORB.init(new String[0], null);
+      POA rootPOA = POAHelper.narrow(
+      orb.resolve_initial_references("RootPOA"));
+    	listener listen  = new listener();
+    	rootPOA.activate_object(listener);
+    	listener reference = listenerHelper.narrow(
+    	rootPOA.servant_to_reference(listener));
+    	MessageServer mServer = MessageServerHelper.narrow(orb.string_to_object("corbaname:iiop:1.2:1050#MessageServer"));
+    	mServer.regiser(reference);
+    	rootPOA.the_POAManger().activate();
+    	orb.run();
+      
       // BufferedReader br = new BufferedReader(new FileReader("filebox.ior"));
       // TODO: Use naming service instead?
       BufferedReader br = new BufferedReader(new FileReader("/home/dejan/git/Filebox/filebox.ior"));
       String ior = br.readLine();
       org.omg.CORBA.Object obj = orb.string_to_object(ior);
+      
 
       fileboxService = serviceHelper.narrow(obj);
       
