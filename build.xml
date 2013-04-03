@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project default="create_run_jar" name="Create Runnable Jar for Project FileboxClient">
+  <property name="src.dir" value="src" />
+  <property name="classes.dir" value="build" />
+  <property name="bin.dir" value="bin" />
+
+  <target name="clean">
+    <delete dir="${classes.dir}" />
+    <delete file="${bin.dir}/fbclient.jar" />
+  </target>
+
+  <target name="init" depends="clean">
+    <mkdir dir="${classes.dir}" />
+  </target>
+  
+  <target name="compile" depends="init">
+    <javac destdir="${classes.dir}" debug="true" srcdir="${src.dir}">
+      <!-- classpath refid="compile.classpath" / -->
+    </javac>
+  </target>
+
+  <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+  <!--ANT 1.7 is required                                        -->
+  <target name="create_run_jar" depends="compile">
+    <jar destfile="${bin.dir}/fbclient.jar" filesetmanifest="mergewithoutmain">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}" />
+        <attribute name="Main-Class" value="filebox.client.Client" />
+        <attribute name="Class-Path" value="." />
+      </manifest>
+
+      <fileset dir="${classes.dir}" />
+    </jar>
+  </target>
+</project>
