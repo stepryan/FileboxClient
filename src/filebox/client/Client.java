@@ -1,7 +1,7 @@
 package filebox.client;
 import java.util.Properties;
 import filebox.listener;
-import filebox.server.MessageServer;
+import server.MessageServer;
 import org.omg.CORBA.ORB;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
