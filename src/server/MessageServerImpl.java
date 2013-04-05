@@ -1,18 +1,22 @@
+package server;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.Iterator;
 import filebox.*;
 
-public class MessageServer extends MessageServerPOA {
+public class MessageServerImpl extends MessageServerPOA {
+	@SuppressWarnings("rawtypes")
 	private Vector fileclients = new Vector();
 	private ReadThread rthread = null;
 	
-	public MessageServer(){
+	public MessageServerImpl(){
 		rthread = new ReadThread(this);
 		
 		
 	}
+	@SuppressWarnings("unchecked")
 	public void register(listener lt){
 		 fileclients.add(lt);
 		 }
@@ -20,8 +24,9 @@ public class MessageServer extends MessageServerPOA {
 		 rthread.start();
 	 }
 	 
-	 public void message(){
-		 Iterator it = fileclients.iterator();
+	 public void message(String usermessage){
+		 @SuppressWarnings("rawtypes")
+		Iterator it = fileclients.iterator();
 		 while(it.hasNext()){
 			 listener lt = (listener) it.next();
 			  String message = " file updated";

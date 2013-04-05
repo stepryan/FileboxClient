@@ -9,10 +9,15 @@ import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
+import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
+
+import filebox.MessageServer;
+import filebox.MessageServerHelper;
 import filebox.filePOATie;
 import filebox.servicePOATie;
 import filebox.userPOATie;
@@ -36,16 +41,17 @@ public class Server {
       ServiceServant handlerServant = new ServiceServant(rootPOA);
       // create a tie, with servant being the delegate
       servicePOATie serviceTie = new servicePOATie(handlerServant);
-      MessageServer msServer = new MessageServer();
+      MessageServerImpl msServer = new MessageServerImpl();
       
       byte[] objID = rootPOA.activate_object(serviceTie);
       org.omg.CORBA.Object shopServantObjectRef = rootPOA.id_to_reference(objID);
       
       rootPOA.activate_object(msServer);
-      MessageServer msref = MessageServerHelper.narrow(rootPOA.servant_to_reference(msref));
+      MessageServer msref = MessageServerHelper.narrow(rootPOA.servant_to_reference(msServer));
       NamingContext nContext = NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-      NameComponent nComponent = {new NameComponent("MessageServer", "")};
-      namingContext.rebind(nContext, msref);
+      System.out.println("Contacted naming Service");
+      NameComponent[] nComponent = {new NameComponent("MessageServer", "")};
+      nContext.rebind(nComponent, msref);
       rootPOA.the_POAManager().activate();
       
       System.out.println("Object ref is " + orb.object_to_string(shopServantObjectRef));

@@ -1,5 +1,7 @@
 package server;
 
+import org.omg.CORBA.Any;
+
 import filebox.fileOperations;
 
 public class FileServant  implements fileOperations {
@@ -8,18 +10,20 @@ public class FileServant  implements fileOperations {
   private String content;
   private int status; // 0 - private, 1 - public
   private int userid;
+  private Any contentBinary;
     
   public FileServant() {
     super();
   }
 
-  public FileServant(int id, String name, String content, int status, int userid) {
+  public FileServant(int id, String name, String content, int status, int userid, Any contentBinary) {
     super();
     this.id = id;
     this.content = content;
     this.name = name;
     this.status = status;
     this.userid = userid;
+    this.contentBinary = contentBinary;
   }
 
   public String content() {
@@ -61,4 +65,16 @@ public class FileServant  implements fileOperations {
   public void userid(int newUserid) {
     userid = newUserid;
   }
+
+@Override
+public Any contentbinary() {
+	
+	return contentBinary;
+}
+
+@Override
+public void contentbinary(Any newContentbinary) {
+	contentBinary = newContentbinary;
+	
+}
 }

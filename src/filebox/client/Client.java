@@ -1,7 +1,8 @@
 package filebox.client;
 import java.util.Properties;
 import filebox.listener;
-import server.MessageServer;
+import server.ListenerImpl;
+import server.MessageServerImpl;
 import org.omg.CORBA.ORB;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
@@ -16,10 +17,14 @@ import java.io.IOException;
 
 import org.omg.CORBA.ORB;
 
+import filebox.MessageServer;
+import filebox.MessageServerHelper;
+import filebox.listenerHelper;
 import filebox.service;
 import filebox.serviceHelper;
 import filebox.status;
 import filebox.user;
+import filebox.listener;
 
 public class Client {
   private service fileboxService;
@@ -55,13 +60,13 @@ public class Client {
       ORB orb = ORB.init(new String[0], null);
       POA rootPOA = POAHelper.narrow(
       orb.resolve_initial_references("RootPOA"));
-    	listener listen  = new listener();
-    	rootPOA.activate_object(listener);
+    	ListenerImpl listen  = new ListenerImpl();
+    	rootPOA.activate_object(listen);
     	listener reference = listenerHelper.narrow(
-    	rootPOA.servant_to_reference(listener));
+    	rootPOA.servant_to_reference(listen));
     	MessageServer mServer = MessageServerHelper.narrow(orb.string_to_object("corbaname:iiop:1.2:1050#MessageServer"));
-    	mServer.regiser(reference);
-    	rootPOA.the_POAManger().activate();
+    	mServer.register(reference);
+    	rootPOA.the_POAManager().activate();
     	orb.run();
       
       // BufferedReader br = new BufferedReader(new FileReader("filebox.ior"));
