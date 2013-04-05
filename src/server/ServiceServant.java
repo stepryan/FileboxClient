@@ -37,6 +37,8 @@ public class ServiceServant implements serviceOperations {
   private StatusServant operationStatus;
   
   private POA rootPOA;
+  private Any contentBinary;
+  
 
   public ServiceServant() {
     super();
@@ -44,6 +46,7 @@ public class ServiceServant implements serviceOperations {
     operationStatus = new StatusServant(2, "Uninitialized");
     session = new ArrayList<Integer>();
     files = new TreeMap<Integer, FileServant>(); // sorted by key
+    
   }
 
   public ServiceServant(POA rootPOA) {
@@ -170,7 +173,7 @@ public class ServiceServant implements serviceOperations {
    * Add a file.
    * Returns: generated id 
    */
-  public int addFile(String name, String content, int status, int userid) {
+  public int addFile(String name, String content, int status, int userid, Any contentBinary) {
     // Check if user is logged in
     if(!isUserLoggedIn(userid)) {      
       operationStatus = new StatusServant(1, "User with ID " + userid + " not logged in"); // 1 = error
@@ -197,7 +200,7 @@ public class ServiceServant implements serviceOperations {
       nextId = 1;
     }
     
-    files.put(nextId, new FileServant(nextId, name, content, status, userid, null));
+    files.put(nextId, new FileServant(nextId, name, content, status, userid, contentBinary ));
     operationStatus = new StatusServant(0, "File " + name + " added");
 
     return nextId;
@@ -290,5 +293,11 @@ public file addFileBinary(Any contentbinary, String filename, short fileid,
 		short filestatus) {
 	// TODO Auto-generated method stub
 	return null;
+}
+
+@Override
+public int addFile(String name, String content, int status, int userid) {
+	// TODO Auto-generated method stub
+	return 0;
 }
 }

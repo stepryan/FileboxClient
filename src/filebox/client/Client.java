@@ -66,9 +66,9 @@ public class Client {
     	rootPOA.servant_to_reference(listen));
     	MessageServer mServer = MessageServerHelper.narrow(orb.string_to_object("corbaname:iiop:1.2:1050#MessageServer"));
     	mServer.register(reference);
+    	System.out.println("Registered with Message Server");
     	rootPOA.the_POAManager().activate();
     	orb.run();
-      
       // BufferedReader br = new BufferedReader(new FileReader("filebox.ior"));
       // TODO: Use naming service instead?
       BufferedReader br = new BufferedReader(new FileReader("/home/dejan/git/Filebox/filebox.ior"));
