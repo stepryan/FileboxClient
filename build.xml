@@ -27,6 +27,7 @@
       <manifest>
         <attribute name="Built-By" value="${user.name}" />
         <attribute name="Main-Class" value="filebox.client.Client" />
+        <!--attribute name="Main-Class" value="filebox.client.ClientIOR" /-->
         <attribute name="Class-Path" value="." />
       </manifest>
 
