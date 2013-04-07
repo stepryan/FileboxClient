@@ -1,0 +1,17 @@
+Buildfile: C:\Users\stephen\Documents\GitHub\FileboxClient\build.xml
+
+clean:
+   [delete] Deleting directory C:\Users\stephen\Documents\GitHub\FileboxClient\build
+
+init:
+    [mkdir] Created dir: C:\Users\stephen\Documents\GitHub\FileboxClient\build
+
+compile:
+    [javac] C:\Users\stephen\Documents\GitHub\FileboxClient\build.xml:18: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 57 source files to C:\Users\stephen\Documents\GitHub\FileboxClient\build
+    [javac] C:\Users\stephen\Documents\GitHub\FileboxClient\src\server\ServiceServant.java:28: error: ServiceServant is not abstract and does not override abstract method getFiles(int,String,String) in serviceOperations
+    [javac] public class ServiceServant implements serviceOperations {
+    [javac]        ^
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+    [javac] 1 error
